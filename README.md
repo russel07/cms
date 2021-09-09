@@ -3,9 +3,9 @@ A basic CMS(CRUD) using PHP following OOP
 
 ## Required information
 `
-Database host name
-Databse username
-Database password
+Database host name,
+Databse username,
+Database password,
 Database name
 `
 
