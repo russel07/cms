@@ -7,7 +7,7 @@ $home = new HomeClass($env);
 $loggedIn = $home->isLoggedIn();
 $username = $home->getLoggedInUserName();
 
-if(!$loggedIn){
+if(!$loggedIn) {
     header("Location:login.php");
 }
 

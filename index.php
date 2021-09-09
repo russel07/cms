@@ -8,17 +8,17 @@ $pageId = (isset($_GET['page']) && !empty($_GET['page'])) ? $_GET['page']: '';
 
 $pages = $home->getActivePages();
 
-if($pageId){
+if($pageId) {
     $page = $home->getPagesById($pageId);
-    if($page['status']){
+    if($page['status']) {
         $data = $page['data'];
         $title = $data['page_title'];
         $content = $data['page_content'];
-    }else{
+    }else {
         $title = "Content not found";
     }
 
-}else{
+}else {
     $title = "Home";
 }
 

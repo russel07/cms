@@ -6,11 +6,12 @@ $home = new HomeClass($env);
 $loggedIn = $home->isLoggedIn();
 $username = $home->getLoggedInUserName();
 
-if($loggedIn){
+if($loggedIn) {
     header("Location:index.php");
 }
 
 $err = [];
+
 if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
     if (isset($_POST) && !empty($_POST)) {
         $login = $home->login($_POST);

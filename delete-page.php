@@ -7,14 +7,14 @@ $home = new HomeClass($env);
 $loggedIn = $home->isLoggedIn();
 $username = $home->getLoggedInUserName();
 
-if(!$loggedIn){
+if(!$loggedIn) {
     header("Location:login.php");
 }
 $pageId = (isset($_GET['page']) && !empty($_GET['page'])) ? $_GET['page']: '';
 
-if($home->deletePage($pageId)){
+if($home->deletePage($pageId)) {
     header("Location:admin.php");
-}else{
+}else {
     $title = "Content not found";
 }
 header("Location:admin.php");

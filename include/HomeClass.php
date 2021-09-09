@@ -2,39 +2,79 @@
 
 require_once __DIR__.'/DatabaseHandler.php';
 
+/*
+********************************************************************
+* @Author		: Md. Russel Husssain					 		   *
+* @Author Email	: md.russel.hussain@gmail.com					   *
+* @Organization	:                       						   *
+* @Purpose		: This class is responsible for all request related*
+* to get all page information, create, update or delete page       *
+********************************************************************
+*/
+
 class HomeClass extends DatabaseHandler {
     use Auth;
-    public function __construct($path){
+
+    public function __construct($path) {
         parent::__construct($path);
     }
 
-    public function getActivePages()
-    {
-        $this->tableName = 'pages';
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * prepare variables to get all active pages
+     * @return array
+     */
+    public function getActivePages() {
+
+        $this->tableName = self::pagesTable;
         $this->columns = array('id', 'page_title', 'page_content', 'page_status');
         $this->conditions = array('page_status' => 'Active');
 
         return $this->getAll();
     }
 
-    public function getAllPages()
-    {
-        $this->tableName = 'pages';
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * prepare variables to get all pages
+     * @return array
+     */
+    public function getAllPages() {
+
+        $this->tableName = self::pagesTable;
         $this->columns = array('id', 'page_title', 'page_content', 'page_status');
 
         return $this->getAll();
     }
 
-    public function getPagesById($id){
-        $this->tableName = 'pages';
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * prepare variables to get a single page by id
+     * @param $id
+     * @return array
+     */
+    public function getPagesById($id) {
+
+        $this->tableName = self::pagesTable;
         $this->columns = array('id', 'page_title', 'page_content', 'page_status');
         $this->conditions = array('id'=> $id);
 
         return $this->getById();
     }
 
-    public function validatePageForm($post){
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * Get post data as parameter and check the validity
+     * @param $post
+     * @return array
+     */
+    public function validatePageForm($post) {
+
         $arr = [];
+
         if($post['page_title'] == ''){
             array_push($arr, "Page title can not be blank");
         }
@@ -45,8 +85,14 @@ class HomeClass extends DatabaseHandler {
         return $arr;
     }
 
-    public function createPage($post){
-        $this->tableName = 'pages';
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * Get post data as parameter and prepare variables to insert new page
+     * @return boolean
+     */
+    public function createPage($post) {
+        $this->tableName = self::pagesTable;
         $page_title = $this->con->real_escape_string($post['page_title']);
         $page_content = nl2br($this->con->real_escape_string($post['page_content']));
 
@@ -56,8 +102,16 @@ class HomeClass extends DatabaseHandler {
         return $this->insert();
     }
 
-    public function updatePage($post){
-        $this->tableName = 'pages';
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * Get post data as parameter and prepare variables to update page information
+     * @param $post
+     * @return boolean
+     */
+    public function updatePage($post) {
+
+        $this->tableName = self::pagesTable;
         $id = $this->con->real_escape_string($post['id']);
         $page_title = $this->con->real_escape_string($post['page_title']);
         $page_content = nl2br($this->con->real_escape_string($post['page_content']));
@@ -68,8 +122,16 @@ class HomeClass extends DatabaseHandler {
         return $this->update();
     }
 
-    public function deletePage($id){
-        $this->tableName = 'pages';
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * Get id as parameter and prepare variables to delete a page by id
+     * @param $id
+     * @return boolean
+     */
+    public function deletePage($id) {
+
+        $this->tableName = self::pagesTable;
         $this->conditions = array( 'id' => $id);
 
         return $this->delete();

@@ -1,21 +1,39 @@
 <?php
 session_start();
+/*
+********************************************************************
+* @Author		: Md. Russel Husssain					 		   *
+* @Author Email	: md.russel.hussain@gmail.com					   *
+* @Organization	:                       						   *
+* @Purpose		: This trait is responsible to authentication and  *
+* get all session values and destroy session                       *
+********************************************************************
+*/
+
 trait Auth {
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * Get request with post data and check the validity of input, validity of user
+     * @param $post
+     * @return array
+     */
     function login($post){
         $email = '';
         $password = '';
         $arr = [];
-        if($post['email'] == ''){
+
+        if($post['email'] == '') {
             array_push($arr, "Email address can not be blank");
-        }elseif(!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
+        }elseif (!filter_var($post['email'], FILTER_VALIDATE_EMAIL)) {
             array_push($arr, "Provided Email address is invalid");
-        }else{
+        }else {
             $email = $post['email'];
         }
 
-        if($post['password'] == ''){
+        if($post['password'] == '') {
             array_push($arr, "Password can not be blank");
-        }else{
+        }else {
             $password = $post['password'];
         }
 
@@ -33,13 +51,13 @@ trait Auth {
 
         $row = $this->getOne();
 
-        if($row['status']){
+        if($row['status']) {
             $_SESSION['users'] = $row['data'];
             return array(
                 "status" => true,
                 "user" => $_SESSION['users']
             );
-        }else{
+        }else {
             array_push($arr, "Provided credential is invalid");
             return array(
                 "status" => false,
@@ -48,7 +66,7 @@ trait Auth {
         }
     }
 
-    function logout(){
+    function logout() {
         unset($_SESSION['users']);
         session_unset();
         session_destroy();
@@ -56,31 +74,24 @@ trait Auth {
         return true;
     }
 
-    function isLoggedIn(){
+    function isLoggedIn() {
         if(isset($_SESSION['users']) && !empty($_SESSION['users']))
             return true;
 
         return false;
     }
 
-    function getLoggedInUserInfo(){
+    function getLoggedInUserInfo() {
         if(isset($_SESSION['users']) && !empty($_SESSION['users'])){
             return $_SESSION['users'];
-        }else{
+        }else {
             return [];
         }
     }
 
-    function getLoggedInUserType(){
-        if(isset($_SESSION['users']) && !empty($_SESSION['users'])){
-            return $_SESSION['users']['user_type'];
-        }else{
-            return false;
-        }
-    }
-
-    function getLoggedInUserName(){
+    function getLoggedInUserName() {
         $userInfo = $this->getLoggedInUserInfo();
+
         if(!empty($userInfo)){
             if(isset($userInfo['name']) && $userInfo['name'])
                 return  $userInfo['name'];
