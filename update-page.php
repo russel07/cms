@@ -109,7 +109,7 @@ if($page['status']){
 
                     <div class="form-group text-center">
                         <input type="submit" id="submitUpdatePage" style="display: none"/>
-                        <button type="button" class="btn btn-outline-success" id="update_page">Update</button>
+                        <button type="submit" class="btn btn-outline-success" id="update_page" onclick="return getPageContent();">Update</button>
                     </div>
                 </form>
             </div>

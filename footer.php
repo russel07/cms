@@ -7,26 +7,27 @@
 </div>
 
 
-<script type="text/javascript" src="asset/js/jquery.min.js"></script>
-<script type="text/javascript" src="asset/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl?>/asset/js/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl?>/asset/js/bootstrap.min.js"></script>
 
-<?php if ($loggedIn):?>
 <script>
+    function getPageContent(){
+        $("#page_content").val(quill2.root.innerHTML);
+        return true;
+    }
     $(document).ready( function () {
-        $(document).on('click', '#create_page', function (e) {
-            document.getElementById("page_content").value = quill2.root.innerHTML;
+        var nextUrl = base_url+"/admin.php";
 
-            if(!$('#create_page_form')[0].checkValidity()) {
-                $('#create_page_form').addClass('was-validated');
-                $('#submitCreatePage').click();
-            }else{
-                let fd = new FormData(document.getElementById('create_page_form'));
-                let url = base_url+'/create-page.php', nextUrl = base_url+'/admin.php';
+        $(document).on('click', '.page', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            var loadQuil = $(this).attr('load-quil');
+            var pageType = $(this).attr('page-type');
 
+            if(url !== ''){
                 $.ajax({
                     url: url,
-                    type: 'POST',
-                    data: fd,
+                    type: 'GET',
                     cache: false,
                     dataType: 'html',
                     processData: false,
@@ -34,59 +35,64 @@
                     beforeSend: function () {
 
                     },
-                    success: function (data) {
-                        var hasError = $(data).find("#has_error");
-                        hasError = hasError.length > 0;
-
-                        if(hasError)
-                            nextUrl = url;
-
+                    success : function(data) {
                         document.querySelector('html').innerHTML = data;
-                        window.history.pushState({}, '', nextUrl);
+                        if(pageType)
+                            url = base_url+"/index.php";
+
+                        window.history.pushState({}, '', url);
+
+                        if(loadQuil){
+                            quill2 = new Quill('#editor', {
+                                placeholder: 'Compose your order details',
+                                theme: 'snow',
+                                modules: {
+                                    toolbar: '#toolbar'
+                                }
+                            });
+                        }
                     },
-                    complete: function () {
+                    error : function(request,error)
+                    {
 
                     }
                 });
             }
         });
 
-        $(document).on('click', '#update_page', function (e) {
-            document.getElementById("page_content").value = quill2.root.innerHTML;
+        $("form").submit(function(e){
+            e.preventDefault();
+            var form = $(this);
+            var id = form.attr('id');
+            var url = form.attr('action');
 
-            if(!$('#update_page_form')[0].checkValidity()) {
-                $('#update_page_form').addClass('was-validated');
-                $('#submitUpdatePage').click();
-            }else{
-                let fd = new FormData(document.getElementById('update_page_form'));
-                let url = base_url+'/update-page.php', nextUrl = base_url+'/admin.php';
+            let fd = new FormData(document.getElementById(id));
 
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: fd,
-                    cache: false,
-                    dataType: 'html',
-                    processData: false,
-                    contentType: false,
-                    beforeSend: function () {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: fd,
+                cache: false,
+                dataType: 'html',
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
 
-                    },
-                    success: function (data) {
-                        var hasError = $(data).find("#has_error");
-                        hasError = hasError.length > 0;
+                },
+                success: function (data) {
+                    var hasError = $(data).find("#has_error");
+                    hasError = hasError.length > 0;
 
-                        if(hasError)
-                            nextUrl = url;
+                    if(hasError)
+                        nextUrl = url;
 
-                        document.querySelector('html').innerHTML = data;
-                        window.history.pushState({}, '', nextUrl);
-                    },
-                    complete: function () {
+                    document.querySelector('html').innerHTML = data;
+                    window.history.pushState({}, '', nextUrl);
+                },
+                complete: function () {
 
-                    }
-                });
-            }
+                }
+            });
         });
 
         $(document).on('click', '.delete-page', function (e) {
@@ -106,17 +112,7 @@
                     },
                     success : function(data) {
                         document.querySelector('html').innerHTML = data;
-                        window.history.pushState({}, '', url);
-
-                        if(loadQuil){
-                            quill2 = new Quill('#editor', {
-                                placeholder: 'Compose your order details',
-                                theme: 'snow',
-                                modules: {
-                                    toolbar: '#toolbar'
-                                }
-                            });
-                        }
+                        window.history.pushState({}, '', nextUrl);
                     },
                     error : function(request,error)
                     {
@@ -125,83 +121,6 @@
                 });
             }else{
                 return false;
-            }
-        });
-    });
-</script>
-<?php endif;?>
-
-<script>
-    $(document).ready( function () {
-        $(document).on('click', '.page', function (e) {
-            e.preventDefault();
-            var url = $(this).attr('href');
-            var loadQuil = $(this).attr('load-quil');
-            if(url !== ''){
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    cache: false,
-                    dataType: 'html',
-                    processData: false,
-                    contentType: false,
-                    beforeSend: function () {
-
-                    },
-                    success : function(data) {
-                        document.querySelector('html').innerHTML = data;
-                        window.history.pushState({}, '', url);
-
-                        if(loadQuil){
-                            quill2 = new Quill('#editor', {
-                                placeholder: 'Compose your order details',
-                                theme: 'snow',
-                                modules: {
-                                    toolbar: '#toolbar'
-                                }
-                            });
-                        }
-                    },
-                    error : function(request,error)
-                    {
-
-                    }
-                });
-            }
-        });
-
-        $(document).on('click', '#login', function (e) {
-            if(!$('#login_form')[0].checkValidity()) {
-                $('#login_form').addClass('was-validated');
-                $('#submitLogin').click();
-            }else{
-                let fd = new FormData(document.getElementById('login_form'));
-                let url = base_url+'/login.php', nextUrl = base_url+'/admin.php';
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: fd,
-                    cache: false,
-                    dataType: 'html',
-                    processData: false,
-                    contentType: false,
-                    beforeSend: function () {
-
-                    },
-                    success: function (data) {
-                        var hasError = $(data).find("#has_error");
-                        hasError = hasError.length > 0;
-
-                        if(hasError)
-                            nextUrl = url;
-
-                        document.querySelector('html').innerHTML = data;
-                        window.history.pushState({}, '', nextUrl);
-                    },
-                    complete: function () {
-
-                    }
-                });
             }
         });
     });
