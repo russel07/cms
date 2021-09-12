@@ -6,8 +6,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" type="text/css" href="asset/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="asset/css/style.css"/>
+
+    <!-- Include the Quill library -->
+    <link href="asset/css/quill.css" rel="stylesheet">
+    <script src="asset/js/quill.js"></script>
     <script>
         var base_url = '<?php echo $baseUrl?>';
+        var quill2 ;
     </script>
 </head>
 <body>

@@ -53,7 +53,7 @@ if($page['status']){
                 <?php
                 if(sizeof($err) > 0):
                     ?>
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger" id="has_error">
                         <p>please fix the following issue(s)</p>
                         <ul>
                             <?php foreach ($err as $error){
@@ -63,7 +63,7 @@ if($page['status']){
                     </div>
                     <?php $err= []; endif;?>
 
-                <form action="" method="POST">
+                <form action="" method="POST" id="update_page_form">
                     <input type="hidden" name="id" value="<?php if(isset($data['id'])) echo $data['id']; ?>"/>
 
                     <div class="form-group">
@@ -90,20 +90,13 @@ if($page['status']){
                     </div>
 
                     <script>
-                        var quill2 = new Quill('#editor', {
+                        quill2 = new Quill('#editor', {
                             placeholder: 'Compose your order details',
                             theme: 'snow',
                             modules: {
                                 toolbar: '#toolbar'
                             }
                         });
-
-                        function setPageContent(){console.log("here");
-                            var html = quill2.root.innerHTML;
-                            document.getElementById("page_content").value = html;
-
-                            return true;
-                        }
                     </script>
 
                     <div class="form-group">
@@ -115,7 +108,8 @@ if($page['status']){
                    </div>
 
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-outline-success" id="create_page" onclick="return setPageContent()">Update</button>
+                        <input type="submit" id="submitUpdatePage" style="display: none"/>
+                        <button type="button" class="btn btn-outline-success" id="update_page">Update</button>
                     </div>
                 </form>
             </div>
