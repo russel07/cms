@@ -14,6 +14,7 @@ if(!$loggedIn) {
 $pages = $home->getAllPages();
 
 $title = "Admin Home";
+$baseUrl = $home->base_url();
 
 ?>
 
@@ -30,7 +31,7 @@ $title = "Admin Home";
                                     <th>SN</th>
                                     <th>Page Title</th>
                                     <th>Page Status</th>
-                                    <th><a class='btn btn-outline-primary' href='./create-page.php'>Add New</a></th>
+                                    <th><a class='btn btn-outline-primary page' href='./create-page.php'>Add New</a></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,9 +39,9 @@ $title = "Admin Home";
                                     $pageNo = $ind+1;
                                     echo "<tr><td width='5%'>$pageNo</td><td>$data[page_title]</td><td>$data[page_status]</td>
                                     <td width='20%'>
-                                        <a class='btn btn-outline-warning' target='_blank' href='./index.php?page=$data[id]'>View</a>
-                                        <a class='btn btn-outline-info' href='./update-page.php?page=$data[id]'>Edit</a>
-                                        <a class='btn btn-outline-danger' href='./delete-page.php?page=$data[id]' onclick='return confirmMe()'>Delete</a>
+                                        <a class='btn btn-outline-warning page' target='_blank' href='./index.php?page=$data[id]'>View</a>
+                                        <a class='btn btn-outline-info page' href='./update-page.php?page=$data[id]'>Edit</a>
+                                        <a class='btn btn-outline-danger page' href='./delete-page.php?page=$data[id]' onclick='return confirmMe()'>Delete</a>
                                     </td>
                                     </tr>";
                                 }?>

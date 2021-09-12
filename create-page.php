@@ -12,6 +12,7 @@ if(!$loggedIn) {
 }
 
 $title = "Create new page";
+$baseUrl = $home->base_url();
 
 $err = [];
 if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {

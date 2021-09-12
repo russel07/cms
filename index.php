@@ -24,6 +24,7 @@ if($pageId) {
 
 $loggedIn = $home->isLoggedIn();
 $username = $home->getLoggedInUserName();
+$baseUrl = $home->base_url();
 ?>
 
 <?php include './header.php'?>

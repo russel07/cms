@@ -5,10 +5,12 @@ $home = new HomeClass($env);
 
 $loggedIn = $home->isLoggedIn();
 $username = $home->getLoggedInUserName();
+$baseUrl = $home->base_url();
 
 if($loggedIn) {
     header("Location:index.php");
 }
+$title = "Login";
 
 $err = [];
 
@@ -37,7 +39,7 @@ if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
             <?php
                 if(sizeof($err) > 0):
             ?>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" id="has_error">
                     <p>please fix the following issue(s)</p>
                     <ul>
                         <?php foreach ($err as $error){
@@ -50,7 +52,7 @@ if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
             <form action="" method="POST" class="p-5" id="login_form">
                 <div class="form-group">
                     <label for="admin_email">Email:</label>
-                    <input type="text" name="email" class="form-control" id="admin_email" required>
+                    <input type="email" name="email" class="form-control" id="admin_email" required>
                 </div>
                 <div class="form-group">
                     <label for="admin_password">Admin Password:</label>
