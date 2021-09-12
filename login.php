@@ -47,7 +47,7 @@ if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
                 </div>
             <?php $err= []; endif;?>
 
-            <form action="" method="POST" class="p-5">
+            <form action="" method="POST" class="p-5" id="login_form">
                 <div class="form-group">
                     <label for="admin_email">Email:</label>
                     <input type="text" name="email" class="form-control" id="admin_email" required>
@@ -58,7 +58,8 @@ if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
                 </div>
 
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-outline-success">Login</button>
+                    <input type="submit" id="submitLogin" style="display: none"/>
+                    <button type="button"  id="login" class="btn btn-outline-success">Login</button>
                 </div>
             </form>
         </div>
