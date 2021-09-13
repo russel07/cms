@@ -24,4 +24,14 @@ class BaseClass{
             $this->isInstalled = true;
         else $this->isInstalled = false;
     }
+
+    /**
+     * @Author: Md. Russel Hussain
+     * @Author Email: md.russel.hussain@gmail.com
+     * Return the APP_URL
+     * @return string
+     */
+    public function base_url(){
+        return getenv('APP_URL');
+    }
 }

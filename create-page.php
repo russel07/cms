@@ -12,6 +12,7 @@ if(!$loggedIn) {
 }
 
 $title = "Create new page";
+$baseUrl = $home->base_url();
 
 $err = [];
 if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
@@ -43,7 +44,7 @@ if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
             <?php
             if(sizeof($err) > 0):
                 ?>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" id="has_error">
                     <p>please fix the following issue(s)</p>
                     <ul>
                         <?php foreach ($err as $error){
@@ -53,16 +54,14 @@ if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
                 </div>
                 <?php $err= []; endif;?>
 
-            <form action="" method="POST">
+            <form action="<?php echo $baseUrl?>/create-page.php" method="POST" id="create_page_form">
                 <div class="form-group">
                     <label for="page_title">Page Title:</label>
                     <input type="text" name="page_title" class="form-control" id="page_title" maxlength="200" required>
                 </div>
                 <div class="form-group">
                     <label for="page_content">Page Content:</label>
-                    <!-- Include the Quill library -->
-                    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-                    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
                     <div id="toolbar">
                         <!-- Add buttons as you would before -->
                         <button class="ql-bold"></button>
@@ -77,24 +76,18 @@ if(isset($_REQUEST) && ($_SERVER['REQUEST_METHOD'] === 'POST')) {
                 </div>
 
                 <script>
-                    var quill2 = new Quill('#editor', {
+                    quill2 = new Quill('#editor', {
                         placeholder: 'Compose your order details',
                         theme: 'snow',
                         modules: {
                             toolbar: '#toolbar'
                         }
                     });
-
-                    function setPageContent(){console.log("here");
-                        var html = quill2.root.innerHTML;
-                        document.getElementById("page_content").value = html;
-
-                        return true;
-                    }
                 </script>
 
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-outline-success" id="create_page" onclick="return setPageContent()">Create</button>
+                    <input type="submit" id="submitCreatePage" style="display: none"/>
+                    <button type="submit" class="btn btn-outline-success" id="create_page" onclick="return getPageContent();">Create</button>
                 </div>
             </form>
         </div>

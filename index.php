@@ -24,6 +24,7 @@ if($pageId) {
 
 $loggedIn = $home->isLoggedIn();
 $username = $home->getLoggedInUserName();
+$baseUrl = $home->base_url();
 ?>
 
 <?php include './header.php'?>
@@ -34,7 +35,7 @@ $username = $home->getLoggedInUserName();
                         <ul class="custom-nav">
                             <?php foreach ($pages['data'] as $ind => $data){
                                 $pageNo = $ind+1;
-                                echo "<li><a href='./index.php?page=$data[id]'> Page $pageNo</a></li>";
+                                echo "<li><a href='./index.php?page=$data[id]' class='page'> Page $pageNo</a></li>";
                             }?>
                         </ul>
                     <?php endif;?>
